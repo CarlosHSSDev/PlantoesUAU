@@ -27,7 +27,7 @@ class TablePlantoes:
 
         # Filtra os plantões do usuário
         plantao_usuario_json = gerenciador.filtrar_por_usuario(self.nome_usuario)
-       
+
         table_data = [
             {"data": plantao["data"], "descricao": plantao["descricao"]}
             for plantao in json.loads(plantao_usuario_json)
@@ -61,45 +61,50 @@ class TablePlantoes:
                                         font_family="Poppins",
                                     ),
                                     # Tabela de dados
-                                    ft.DataTable(
-                                        columns=[
-                                            ft.DataColumn(
-                                                ft.Text(
-                                                    "Data",
-                                                    font_family="Poppins_Bold",
-                                                    size=14,
-                                                )
-                                            ),
-                                            ft.DataColumn(
-                                                ft.Text(
-                                                    "Descrição",
-                                                    font_family="Poppins_Bold",
-                                                    size=14,
-                                                )
-                                            ),
-                                        ],
-                                        rows=[
-                                            ft.DataRow(
-                                                cells=[
-                                                    ft.DataCell(
+                                    ft.Column(
+                                        [
+                                            ft.DataTable(
+                                                columns=[
+                                                    ft.DataColumn(
                                                         ft.Text(
-                                                            row["data"],
-                                                            font_family="Poppins",
-                                                            expand=True,
+                                                            "Data",
+                                                            font_family="Poppins_Bold",
+                                                            size=14,
                                                         )
                                                     ),
-                                                    ft.DataCell(
+                                                    ft.DataColumn(
                                                         ft.Text(
-                                                            row["descricao"],
-                                                            font_family="Poppins",
-                                                            expand=True,
+                                                            "Descrição",
+                                                            font_family="Poppins_Bold",
+                                                            size=14,
                                                         )
                                                     ),
-                                                ]
+                                                ],
+                                                rows=[
+                                                    ft.DataRow(
+                                                        cells=[
+                                                            ft.DataCell(
+                                                                ft.Text(
+                                                                    row["data"],
+                                                                    font_family="Poppins",
+                                                                    expand=True,
+                                                                )
+                                                            ),
+                                                            ft.DataCell(
+                                                                ft.Text(
+                                                                    row["descricao"],
+                                                                    font_family="Poppins",
+                                                                    expand=True,
+                                                                )
+                                                            ),
+                                                        ]
+                                                    )
+                                                    for row in table_data
+                                                ],
+                                                expand=True,
                                             )
-                                            for row in table_data
                                         ],
-                                        expand=True,
+                                        horizontal_alignment=ft.CrossAxisAlignment.STRETCH,
                                     ),
                                     ft.Row(
                                         [
