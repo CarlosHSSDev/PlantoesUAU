@@ -2,6 +2,35 @@ import flet as ft
 from assets.elementos import SearchInput, ButtonGradient
 from assets.table_plantoes import TablePlantoes  # Importando a tela TablePlantoes
 
+lista_nomes = [
+    "Marcos Vinicius",
+    "Filipe",
+    "Carlos",
+    "Rafael",
+    "Valdemir",
+    "Hicaro",
+    "Rodrigo Santana",
+    "Gabriel",
+    "Caio",
+    "Josiel",
+    "Gisnei",
+    "Daniel",
+    "Henrique",
+    "Genisson",
+    "Ayrton",
+    "Romário",
+    "Uelio",
+    "Davi",
+    "Valdenilson",
+    "Wesley",
+    "Moises",
+    "José Leoni",
+    "Jardel",
+    "Ailton",
+    "José Williams",
+]
+
+
 class HomePage:
     def __init__(self, page: ft.Page):
         self.page = page
@@ -12,7 +41,11 @@ class HomePage:
             # Verifica se o campo de entrada não está vazio
             if not self.page.data:  # Se o campo estiver vazio
                 # Adiciona uma mensagem de erro ou um aviso
-                self.page.add(ft.Text("Por favor, preencha o campo de nome!", color="red", size=16))
+                self.page.add(
+                    ft.Text(
+                        "Por favor, preencha o campo de nome!", color="red", size=16
+                    )
+                )
                 self.page.update()
                 return  # Impede que a navegação continue
 
@@ -43,34 +76,8 @@ class HomePage:
                                     ),
                                     SearchInput(
                                         "Digite seu nome",
-                                        [
-                                            "Marcos Vinicius",
-                                            "Filipe",
-                                            "Carlos",
-                                            "Rafael",
-                                            "Valdemir",
-                                            "Hicaro",
-                                            "Rodrigo Santana",
-                                            "Gabriel",
-                                            "Caio",
-                                            "Josiel",
-                                            "Gisnei",
-                                            "Daniel",
-                                            "Henrique",
-                                            "Genisson",
-                                            "Ayrton",
-                                            "Romário",
-                                            "Uelio",
-                                            "Davi",
-                                            "Valdenilson",
-                                            "Wesley",
-                                            "Moises",
-                                            "José Leoni",
-                                            "Jardel",
-                                            "Ailton",
-                                            "José Williams",
-                                        ],
-                                        on_select_item=item_selected
+                                        lista_nomes,
+                                        on_select_item=item_selected,
                                     ).build(),
                                 ],
                                 spacing=50,

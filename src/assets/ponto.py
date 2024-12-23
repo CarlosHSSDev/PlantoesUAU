@@ -1,8 +1,7 @@
 import calendar
-import holidays
+from holidays.countries import Brazil
 import json
 from datetime import datetime
-
 
 # Mapeamento manual dos dias da semana para português
 DIAS_DA_SEMANA = {
@@ -12,7 +11,7 @@ DIAS_DA_SEMANA = {
     "Thursday": "Quinta-feira",
     "Friday": "Sexta-feira",
     "Saturday": "Sábado",
-    "Sunday": "Domingo"
+    "Sunday": "Domingo",
 }
 
 # Tradução manual para feriados brasileiros
@@ -27,7 +26,28 @@ FERIADOS_TRADUZIDOS = {
     "Republic Proclamation Day": "Proclamação da República",
     "National Day of Zumbi and Black Awareness": "Dia Nacional da Consciência Negra",
     "Christmas Day": "Natal",
+    "Carnival": "Carnaval",
+    "City Anniversary": "Aniversário da Cidade",
+    "Feast of the City's Patron Saint": "Festa da Padroeira da Cidade"
 }
+
+
+# Subclasse de feriados personalizados
+class FeriadosPersonalizados(Brazil):
+    def __init__(self, ano, *args, **kwargs):
+        super().__init__(years=ano, *args, **kwargs)  # Passando o ano corretamente
+        # Adicionar feriados personalizados
+        self.update(
+            {
+                f"{ano}-02-03": "Carnival",  
+                f"{ano}-02-04": "Carnival",  
+                f"{ano}-06-12": "City Anniversary", 
+                f"{ano}-07-26": "Feast of the City's Patron Saint",
+                f"{ano}-07-08": "Emancipação Política de Sergipe",
+                f"{ano}-04-20": "Páscoa",
+                f"{ano}-09-07": "Independência do Brasil", 
+            }
+        )
 
 
 class GerenciadorPlantoes:
@@ -47,7 +67,7 @@ class GerenciadorPlantoes:
 
     def obter_datas_unicas(self, ano):
         domingos = self.listar_domingos(ano)
-        feriados = holidays.Brazil(years=ano)
+        feriados = FeriadosPersonalizados(ano=ano)  # Passando o ano corretamente
         feriados_lista = [str(data) for data in feriados.keys()]
         todas_as_datas = set(domingos + feriados_lista)
         return sorted(todas_as_datas)
@@ -87,10 +107,14 @@ class GerenciadorPlantoes:
 
         # Filtrar os plantões do usuário
         plantao_usuario = []
-        feriados = holidays.Brazil(years=[self.ano_atual, self.ano_futuro])
+        feriados = FeriadosPersonalizados(ano=self.ano_atual)  # Passando o ano corretamente
         for data, equipe in distribuicao:
-            data_obj = datetime.strptime(data, "%Y-%m-%d")  # Converter a data para objeto datetime
-            if data_obj > hoje and nome_usuario in self.equipes[equipe]:  # Filtro para datas futuras
+            data_obj = datetime.strptime(
+                data, "%Y-%m-%d"
+            )  # Converter a data para objeto datetime
+            if (
+                data_obj > hoje and nome_usuario in self.equipes[equipe]
+            ):  # Filtro para datas futuras
                 data_formatada = "/".join(reversed(data.split("-")))
                 observacao = feriados.get(data)
                 if observacao:
@@ -100,7 +124,9 @@ class GerenciadorPlantoes:
                     dia_semana_en = calendar.day_name[calendar.weekday(ano, mes, dia)]
                     observacao = DIAS_DA_SEMANA[dia_semana_en]
 
-                plantao_usuario.append({"data": data_formatada, "descricao": observacao})
+                plantao_usuario.append(
+                    {"data": data_formatada, "descricao": observacao}
+                )
 
         return json.dumps(plantao_usuario, ensure_ascii=False, indent=4)
 
@@ -113,10 +139,10 @@ if __name__ == "__main__":
         "Equipe 4": ["Henrique", "Genisson", "Ayrton", "Romário (NOC)"],
         "Equipe 5": ["Uelio", "Davi", "Valdenilson", "Rafael (NOC)"],
         "Equipe 6": ["Wesley", "Moises", "José Leoni", "Gabriel (NOC)"],
-        "Equipe 7": ["Jardel", "Ailton", "José Williams", "Daniel (NOC)"]
+        "Equipe 7": ["Jardel", "Ailton", "José Williams", "Daniel (NOC)"],
     }
 
     gerenciador = GerenciadorPlantoes(2024, 2025, equipes)
-    nome_usuario = "Jardel"
+    nome_usuario = "Carlos"
     plantao_usuario_json = gerenciador.filtrar_por_usuario(nome_usuario)
     print(plantao_usuario_json)
