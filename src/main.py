@@ -25,8 +25,6 @@ def main(page: ft.Page):
     page.theme = ft.Theme(font_family="Poppins")
     page.theme_mode = ft.ThemeMode.DARK
     page.bgcolor = "#101010"
-    page.window_width = 390
-    page.window_height = 844
 
     # Executa a transição entre telas
     asyncio.run(transition_to_home(page))
