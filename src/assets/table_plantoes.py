@@ -60,7 +60,9 @@ class TablePlantoes:
                                         size=14,
                                         font_family="Poppins",
                                     ),
-                                    ft.Row(
+                                    ft.Column(
+                                        [
+                                            ft.Row(
                                                 [
                                                     ft.Container(
                                                         ft.Text(
@@ -79,51 +81,56 @@ class TablePlantoes:
                                                     )
                                                 ]
                                             ),
-                                    # Tabela de dados
-                                    ft.Column(
-                                        [
-                                            ft.DataTable(
-                                                columns=[
-                                                    ft.DataColumn(
-                                                        ft.Text(
-                                                            "Data",
-                                                            font_family="Poppins_Bold",
-                                                            size=14,
-                                                        )
-                                                    ),
-                                                    ft.DataColumn(
-                                                        ft.Text(
-                                                            "Descrição",
-                                                            font_family="Poppins_Bold",
-                                                            size=14,
-                                                        )
-                                                    ),
-                                                ],
-                                                rows=[
-                                                    ft.DataRow(
-                                                        cells=[
-                                                            ft.DataCell(
+                                            # Tabela de dados
+                                            ft.Column(
+                                                [
+                                                    ft.DataTable(
+                                                        columns=[
+                                                            ft.DataColumn(
                                                                 ft.Text(
-                                                                    row["data"],
-                                                                    font_family="Poppins",
-                                                                    expand=True,
+                                                                    "Data",
+                                                                    font_family="Poppins_Bold",
+                                                                    size=14,
                                                                 )
                                                             ),
-                                                            ft.DataCell(
+                                                            ft.DataColumn(
                                                                 ft.Text(
-                                                                    row["descricao"],
-                                                                    font_family="Poppins",
-                                                                    expand=True,
+                                                                    "Descrição",
+                                                                    font_family="Poppins_Bold",
+                                                                    size=14,
                                                                 )
                                                             ),
-                                                        ]
+                                                        ],
+                                                        rows=[
+                                                            ft.DataRow(
+                                                                cells=[
+                                                                    ft.DataCell(
+                                                                        ft.Text(
+                                                                            row["data"],
+                                                                            font_family="Poppins",
+                                                                            expand=True,
+                                                                        )
+                                                                    ),
+                                                                    ft.DataCell(
+                                                                        ft.Text(
+                                                                            row[
+                                                                                "descricao"
+                                                                            ],
+                                                                            font_family="Poppins",
+                                                                            expand=True,
+                                                                        )
+                                                                    ),
+                                                                ]
+                                                            )
+                                                            for row in table_data
+                                                        ],
+                                                        expand=True,
                                                     )
-                                                    for row in table_data
                                                 ],
-                                                expand=True,
-                                            )
+                                                horizontal_alignment=ft.CrossAxisAlignment.STRETCH,
+                                            ),
                                         ],
-                                        horizontal_alignment=ft.CrossAxisAlignment.STRETCH,
+                                        spacing=20
                                     ),
                                     ft.Row(
                                         [
