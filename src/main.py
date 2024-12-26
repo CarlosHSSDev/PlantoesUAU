@@ -28,7 +28,7 @@ async def periodic_requests():
     while True:
         try:
             # Faz uma requisição GET para o servidor Flask
-            response = requests.get("https://teste-render-9yoa.onrender.com")
+            response = requests.get("http://127.0.0.1:5000/")
             print(f"Flask response: {response.json()}")
         except Exception as e:
             print(f"Error in periodic request: {str(e)}")
@@ -43,11 +43,13 @@ def main(page: ft.Page):
     page.theme_mode = ft.ThemeMode.DARK
     page.bgcolor = "#101010"
 
-    # Inicia a tarefa de transição entre telas
-    asyncio.run(transition_to_home(page))
+    async def run_tasks():
+        await asyncio.gather(
+            transition_to_home(page),
+            periodic_requests()
+        )
 
-    # Inicia a tarefa de requisições periódicas
-    asyncio.create_task(periodic_requests())
+    asyncio.run(run_tasks())
 
 
 ft.app(main, assets_dir="assets", view=ft.AppView.WEB_BROWSER)
