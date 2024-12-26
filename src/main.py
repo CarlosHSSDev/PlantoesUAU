@@ -1,5 +1,6 @@
 import flet as ft
 import asyncio
+import requests
 from assets.home import HomePage
 from assets.loading import Loading
 
@@ -20,14 +21,33 @@ async def transition_to_home(page: ft.Page):
     page.update()
 
 
+async def periodic_requests():
+    """
+    Função que realiza requisições periódicas ao servidor Flask.
+    """
+    while True:
+        try:
+            # Faz uma requisição GET para o servidor Flask
+            response = requests.get("https://teste-render-9yoa.onrender.com")
+            print(f"Flask response: {response.json()}")
+        except Exception as e:
+            print(f"Error in periodic request: {str(e)}")
+
+        # Aguarda 30 segundos antes de repetir
+        await asyncio.sleep(30)
+
+
 def main(page: ft.Page):
     page.fonts = {"Poppins": "Poppins-Regular.ttf", "Poppins_Bold": "Poppins-Bold.ttf"}
     page.theme = ft.Theme(font_family="Poppins")
     page.theme_mode = ft.ThemeMode.DARK
     page.bgcolor = "#101010"
 
-    # Executa a transição entre telas
+    # Inicia a tarefa de transição entre telas
     asyncio.run(transition_to_home(page))
+
+    # Inicia a tarefa de requisições periódicas
+    asyncio.create_task(periodic_requests())
 
 
 ft.app(main, assets_dir="assets", view=ft.AppView.WEB_BROWSER)
