@@ -60,6 +60,25 @@ class TablePlantoes:
                                         size=14,
                                         font_family="Poppins",
                                     ),
+                                    ft.Row(
+                                                [
+                                                    ft.Container(
+                                                        ft.Text(
+                                                            "As datas dos seus plantões foram ajustadas recentemente devido à adição de novos funcionários e/ou às férias de outros colegas.",
+                                                            text_align=ft.TextAlign.CENTER,
+                                                            color="#EE3338",
+                                                        ),
+                                                        border=ft.border.all(
+                                                            1, "#EE3338"
+                                                        ),
+                                                        border_radius=ft.border_radius.all(
+                                                            10
+                                                        ),
+                                                        bgcolor="#FFD0D1",
+                                                        expand=True,
+                                                    )
+                                                ]
+                                            ),
                                     # Tabela de dados
                                     ft.Column(
                                         [

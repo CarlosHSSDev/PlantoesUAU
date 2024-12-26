@@ -74,11 +74,35 @@ class HomePage:
                                         "Seja bem-vindo ao plantões Uaubr. Aqui você verá com mais facilidade e precisão quais serão os plantões que você irá fazer durante o ano vigente.",
                                         text_align=ft.TextAlign.CENTER,
                                     ),
-                                    SearchInput(
-                                        "Digite seu nome",
-                                        lista_nomes,
-                                        on_select_item=item_selected,
-                                    ).build(),
+                                    ft.Column(
+                                        [
+                                            ft.Row(
+                                                [
+                                                    ft.Container(
+                                                        ft.Text(
+                                                            "O aplicativo está passando por manutenção para melhor atendê-lo. Por conta disso, podem haver bugs nas datas dos seus plantões. Boas festas!",
+                                                            text_align=ft.TextAlign.CENTER,
+                                                            color="#0CA8E8",
+                                                        ),
+                                                        border=ft.border.all(
+                                                            1, "#0CA8E8"
+                                                        ),
+                                                        border_radius=ft.border_radius.all(
+                                                            10
+                                                        ),
+                                                        bgcolor="#C7E2F8",
+                                                        expand=True,
+                                                    )
+                                                ]
+                                            ),
+                                            SearchInput(
+                                                "Digite seu nome",
+                                                lista_nomes,
+                                                on_select_item=item_selected,
+                                            ).build(),
+                                        ],
+                                        spacing=20,
+                                    ),
                                 ],
                                 spacing=50,
                             ),
